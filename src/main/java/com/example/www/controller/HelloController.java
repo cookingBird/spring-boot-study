@@ -1,4 +1,4 @@
-package main.controller;
+package com.example.www.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
