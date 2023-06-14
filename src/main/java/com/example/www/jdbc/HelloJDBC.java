@@ -1,6 +1,7 @@
 package com.example.www.jdbc;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.util.HashSet;
@@ -15,12 +16,15 @@ public class HelloJDBC {
 
   public static void main(String[] args) throws ClassNotFoundException, SQLException {
 //    queryTest();
-    cursorQueryTest();
+//    cursorQueryTest();
 //    removeTest();
 //    batchTest();
+    selectTest();
   }
 
-
+  /**
+   * @Description 查询测试
+   */
   public static void queryTest() throws ClassNotFoundException, SQLException {
     // 1. 加载数据库驱动
     Class.forName(JDBC_DRIVER);
@@ -48,6 +52,9 @@ public class HelloJDBC {
     }
   }
 
+  /**
+   * @Description 游标查询测试
+   */
   public static void cursorQueryTest() throws ClassNotFoundException, SQLException {
     //1.加载驱动；
     Class.forName(JDBC_DRIVER);
@@ -66,6 +73,9 @@ public class HelloJDBC {
     }
   }
 
+  /**
+   * @Description 批量插入测试
+   */
   public static void batchTest() throws SQLException, ClassNotFoundException {
     LinkedList<String> users = new LinkedList<String>();
     users.add("test1");
@@ -80,6 +90,9 @@ public class HelloJDBC {
     insertUsers(users);
   }
 
+  /**
+   * @Description 批量插入
+   */
   public static void insertUsers(@NotNull LinkedList<String> users) throws SQLException, ClassNotFoundException {
     Class.forName(JDBC_DRIVER);
     try (
@@ -95,18 +108,87 @@ public class HelloJDBC {
     }
   }
 
+  /**
+   * @Description stream流读取测试
+   */
   public static void readStreamTest() {
 
   }
 
+  /**
+   * @Description 删除测试
+   */
   public static void removeTest() throws ClassNotFoundException, SQLException {
     Class.forName(JDBC_DRIVER);
     try (
-        Connection con = DriverManager.getConnection(DB_URL, USER,PASSWORD);
+        Connection con = DriverManager.getConnection(DB_URL, USER, PASSWORD);
         Statement st = con.createStatement();
-        ){
-        st.execute("DELETE FROM user WHERE userName LIKE 'test_'");
+    ) {
+      st.execute("DELETE FROM user WHERE userName LIKE 'test_'");
     }
   }
 
+  public static void selectTest() throws SQLException {
+    //todo mysql8 语法错误
+    //System.out.println(getUser("LiSi';--", "12345") != null);
+    System.out.println(getUser("LiSi", "12345") != null);
+  }
+
+  public static User getUser(@Nullable String username, @Nullable String password) throws SQLException {
+    if (username == null || password == null) throw new IllegalArgumentException("缺少必要参数！");
+    try (
+        Connection con = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        Statement st = con.createStatement();
+    ) {
+      User user = null;
+      ResultSet rs = st.executeQuery("select * from user where userName = '" + username + "' and password = '" + password + "'");
+      while (rs.next()) {
+        user = new User();
+        user.setId(rs.getInt(1));
+        user.setUserName(rs.getString(2));
+        user.setPassword(rs.getString(3));
+      }
+      return user;
+    }
+  }
+}
+
+
+class User {
+  long id;
+  String userName;
+  String password;
+
+  public User() {
+  }
+
+  public User(long id, String userName, String password) {
+    this.id = id;
+    this.userName = userName;
+    this.password = password;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public String getUserName() {
+    return userName;
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 }
