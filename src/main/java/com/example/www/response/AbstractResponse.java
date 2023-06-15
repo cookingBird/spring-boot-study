@@ -5,7 +5,7 @@ package com.example.www.response;
  */
 public class AbstractResponse implements IResponse {
     @Override
-    public <T> Response success(T data) {
+    public static <T> Response success(T data) {
         Response response = new Response();
         response.setCode(200);
         response.setData(data);
@@ -13,10 +13,8 @@ public class AbstractResponse implements IResponse {
         return response;
     }
 
-    ;
-
     @Override
-    public <T> Response success(T data, int code) {
+    public static <T> Response success(T data, int code) {
         Response response = new Response();
         response.setCode(code);
         response.setData(data);
@@ -25,7 +23,7 @@ public class AbstractResponse implements IResponse {
     }
 
     @Override
-    public <T> Response success(T data, int code, String msg) {
+    public static <T> Response success(T data, int code, String msg) {
         Response response = new Response();
         response.setCode(code);
         response.setData(data);
@@ -34,7 +32,7 @@ public class AbstractResponse implements IResponse {
     }
 
     @Override
-    public Response failure(String msg) {
+    public static Response failure(String msg) {
         Response response = new Response();
         response.setCode(500);
         response.setMsg(msg);
@@ -43,7 +41,7 @@ public class AbstractResponse implements IResponse {
     }
 
     @Override
-    public Response failure(String msg, int code) {
+    public static Response failure(String msg, int code) {
         Response response = new Response();
         response.setCode(code);
         response.setMsg(msg);
@@ -52,7 +50,7 @@ public class AbstractResponse implements IResponse {
     }
 
     @Override
-    public <T> Response failure(String msg, int code, T data) {
+    public static <T> Response failure(String msg, int code, T data) {
         Response response = new Response();
         response.setCode(code);
         response.setData(data);

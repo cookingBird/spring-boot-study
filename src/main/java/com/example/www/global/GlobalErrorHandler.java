@@ -28,9 +28,6 @@ public class GlobalErrorHandler {
     @ExceptionHandler(IllegalStateException.class)
     @ResponseBody
     public Response illegalStateExceptionHandler(Exception e) {
-        Response response = new Response();
-        response.failure(e.getMessage());
-        System.out.println(response.toString());
-        return response;
+        return Response.failure(e.getMessage());;
     }
 }
