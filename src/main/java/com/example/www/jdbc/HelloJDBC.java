@@ -1,13 +1,11 @@
 package com.example.www.jdbc;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
+@Component
 public class HelloJDBC {
   static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
   static final String USER = "root";
@@ -43,12 +41,15 @@ public class HelloJDBC {
         System.out.println("Hello " + resultSet.getString(2) + " ID:" + resultSet.getInt(1));
       }
     } finally {
-      if (conn != null)
+      if (conn != null) {
         conn.close();
-      if (stmt != null)
+      }
+      if (stmt != null) {
         stmt.close();
-      if (resultSet != null)
+      }
+      if (resultSet != null) {
         resultSet.close();
+      }
     }
   }
 
@@ -93,7 +94,7 @@ public class HelloJDBC {
   /**
    * @Description 批量插入
    */
-  public static void insertUsers(@NotNull LinkedList<String> users) throws SQLException, ClassNotFoundException {
+  public static void insertUsers(LinkedList<String> users) throws SQLException, ClassNotFoundException {
     Class.forName(JDBC_DRIVER);
     try (
         Connection con = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -134,8 +135,7 @@ public class HelloJDBC {
     System.out.println(getUser("LiSi", "12345") != null);
   }
 
-  public static User getUser(@Nullable String username, @Nullable String password) throws SQLException {
-    if (username == null || password == null) throw new IllegalArgumentException("缺少必要参数！");
+  public static User getUser(String username, String password) throws SQLException {
     try (
         Connection con = DriverManager.getConnection(DB_URL, USER, PASSWORD);
         Statement st = con.createStatement();
@@ -154,41 +154,3 @@ public class HelloJDBC {
 }
 
 
-class User {
-  long id;
-  String userName;
-  String password;
-
-  public User() {
-  }
-
-  public User(long id, String userName, String password) {
-    this.id = id;
-    this.userName = userName;
-    this.password = password;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-}
