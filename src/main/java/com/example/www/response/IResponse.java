@@ -1,10 +1,19 @@
 package com.example.www.response;
 
-public interface IResponse {
-    public static  <T> Response success(T data);
-    public static <T> Response success(T data,int code);
-    public static <T> Response success(T data,int code,String msg);
-    public static <T> Response failure(String msg);
-    public static <T> Response failure(String msg,int code);
-    public static <T> Response failure(String msg,int code, T data);
+/**
+ * @Description 接口应该是约定一个实例的行为
+ * 所以接口应该是与实例相对应
+ */
+public interface IResponse{
+    static <P,R> R success(P data){ return null; };
+
+    static <P,R> R success(P data, int code){ return null; };
+
+    static <P,R> R success(P data, int code, String msg){ return null; };
+
+    static <R> R failure(String msg){ return null; };
+
+    static <R> R failure(String msg, int code){ return null; };
+
+    static <P,R> R failure(String msg, int code, P data){ return null; };
 }

@@ -1,60 +1,49 @@
 package com.example.www.response;
 
 /**
- * @author dengtao
+ * @Description 抽象类约定了类的方法
+ * 上层代码只定义规范（例如：abstract class Person）；
+ *
+ * 不需要子类就可以实现业务逻辑（正常编译）；
+ *
+ * 具体的业务逻辑由不同的子类实现，调用者并不关心。
  */
-public class AbstractResponse implements IResponse {
-    @Override
-    public static <T> Response success(T data) {
-        Response response = new Response();
-        response.setCode(200);
-        response.setData(data);
-        response.setMsg("success");
-        return response;
+public abstract class AbstractResponse {
+    protected String msg = "";
+    protected int code = -1;
+    protected Object data = null;
+
+    protected AbstractResponse(String msg, int code, Object data) {
+        this.msg = msg;
+        this.code = code;
+        this.data = data;
     }
 
-    @Override
-    public static <T> Response success(T data, int code) {
-        Response response = new Response();
-        response.setCode(code);
-        response.setData(data);
-        response.setMsg("success");
-        return response;
+    protected AbstractResponse() {
     }
 
-    @Override
-    public static <T> Response success(T data, int code, String msg) {
-        Response response = new Response();
-        response.setCode(code);
-        response.setData(data);
-        response.setMsg(msg);
-        return response;
+
+    protected String getMsg() {
+        return msg;
     }
 
-    @Override
-    public static Response failure(String msg) {
-        Response response = new Response();
-        response.setCode(500);
-        response.setMsg(msg);
-        response.setData(null);
-        return response;
+    protected void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    @Override
-    public static Response failure(String msg, int code) {
-        Response response = new Response();
-        response.setCode(code);
-        response.setMsg(msg);
-        response.setData(null);
-        return response;
+    protected int getCode() {
+        return code;
     }
 
-    @Override
-    public static <T> Response failure(String msg, int code, T data) {
-        Response response = new Response();
-        response.setCode(code);
-        response.setData(data);
-        response.setMsg(msg);
-        return response;
+    protected void setCode(int code) {
+        this.code = code;
+    }
+
+    protected Object getData() {
+        return data;
+    }
+
+    protected void setData(Object data) {
+        this.data = data;
     }
 }

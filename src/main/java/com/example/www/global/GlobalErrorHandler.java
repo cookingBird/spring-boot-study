@@ -12,22 +12,18 @@ public class GlobalErrorHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseBody
     public Response illegalArgumentExceptionHandler(Exception e) {
-        Response response = new Response();
-        response.failure(e.getMessage());
-        return response;
+        return Response.failure(e.getMessage());
     }
 
     @ExceptionHandler(SQLException.class)
     @ResponseBody
     public Response sqlExceptionHandler(Exception e) {
-        Response response = new Response();
-        response.failure(e.getMessage());
-        return response;
+        return Response.failure(e.getMessage());
     }
 
     @ExceptionHandler(IllegalStateException.class)
     @ResponseBody
     public Response illegalStateExceptionHandler(Exception e) {
-        return Response.failure(e.getMessage());;
+        return Response.failure(e.getMessage());
     }
 }

@@ -7,46 +7,62 @@ import org.springframework.stereotype.Component;
  * @author Administrator
  */
 @Component()
-@Scope("prototype")
-public class Response extends AbstractResponse {
-    private String msg = "";
-    private int code = -1;
-    private Object data = null;
+public class Response extends AbstractResponse implements IResponse{
 
     public Response(String msg, int code, Object data) {
-        this.msg = msg;
-        this.code = code;
-        this.data = data;
+        super(msg, code, data);
     }
 
-    public Response() {
+    private Response() {
+        super();
     }
 
-
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public static <T> Response success(T data) {
+        Response response = new Response();
+        response.setCode(200);
+        response.setData(data);
+        response.setMsg("success");
+        return response;
     }
 
-
-    public void setCode(int code) {
-        this.code = code;
+    public static <T> Response success(T data, int code) {
+        Response response = new Response();
+        response.setCode(code);
+        response.setData(data);
+        response.setMsg("success");
+        return response;
     }
 
-
-    public void setData(Object data) {
-        this.data = data;
+    public static <T> Response success(T data, int code, String msg) {
+        Response response = new Response();
+        response.setCode(code);
+        response.setData(data);
+        response.setMsg(msg);
+        return response;
     }
 
-    public String getMsg() {
-        return msg;
+    public static Response failure(String msg) {
+        Response response = new Response();
+        response.setCode(500);
+        response.setMsg(msg);
+        response.setData(null);
+        return response;
     }
 
-    public int getCode() {
-        return code;
+    public static Response failure(String msg, int code) {
+        Response response = new Response();
+        response.setCode(code);
+        response.setMsg(msg);
+        response.setData(null);
+        return response;
     }
 
-    public Object getData() {
-        return data;
+    public static <T> Response failure(String msg, int code, T data) {
+        Response response = new Response();
+        response.setCode(code);
+        response.setData(data);
+        response.setMsg(msg);
+        return response;
     }
 
     @Override
@@ -56,5 +72,35 @@ public class Response extends AbstractResponse {
                 ", code=" + code +
                 ", data=" + data +
                 '}';
+    }
+
+    @Override
+    public String getMsg() {
+        return super.getMsg();
+    }
+
+    @Override
+    public void setMsg(String msg) {
+        super.setMsg(msg);
+    }
+
+    @Override
+    public int getCode() {
+        return super.getCode();
+    }
+
+    @Override
+    public void setCode(int code) {
+        super.setCode(code);
+    }
+
+    @Override
+    public Object getData() {
+        return super.getData();
+    }
+
+    @Override
+    protected void setData(Object data) {
+        super.setData(data);
     }
 }

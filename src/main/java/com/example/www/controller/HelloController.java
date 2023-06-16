@@ -17,21 +17,4 @@ public class HelloController {
         return "hello world";
     }
 
-    @GetMapping("/login")
-    @ResponseBody
-    public Response getUser(
-            @RequestParam(value = "userName", required = false) String userName,
-            @RequestParam(value = "password", required = false) String password
-    ) throws SQLException {
-        Assert.state(StringUtils.isNotBlank(userName), "用户名不能为空！");
-        Assert.state(StringUtils.isNotBlank(password), "密码不能为空！");
-        Response response = new Response();
-        User user = HelloJDBC.getUser(userName, password);
-        if (user == null) {
-            response.failure("用户不存在");
-        } else {
-            response.success(user);
-        }
-        return response;
-    }
 }

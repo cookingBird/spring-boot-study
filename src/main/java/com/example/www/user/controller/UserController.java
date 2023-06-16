@@ -14,5 +14,19 @@ import java.sql.SQLException;
  */
 @RestController
 public class UserController {
-
+    @GetMapping("/login")
+    @ResponseBody
+    public Response getUser(
+            @RequestParam(value = "userName", required = false) String userName,
+            @RequestParam(value = "password", required = false) String password
+    ) throws SQLException {
+        Assert.isTrue(StringUtils.isNotBlank(userName), "用户名不能为空！");
+        Assert.isTrue(StringUtils.isNotBlank(password), "密码不能为空！");
+        User user = HelloJDBC.getUser(userName, password);
+        if (user == null) {
+            return Response.failure("用户不存在");
+        } else {
+            return Response.success(user);
+        }
+    }
 }
